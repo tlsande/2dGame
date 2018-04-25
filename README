@@ -1,18 +1,4 @@
-Name: Lee Sanders
+A basic setup for a 2D game using SDL2. 
 
-Course: cpsc 4160
-
-Clemson Email Address: tlsande@g.clemson.edu
-
-Project no: 5
-
-Project due date: 4/20/18
-
-Project description: Added shooting and sprite explosions.
-
-The easiest part of this project: updating the base sprite to explode.
-
-Problems that I had in completing this project: I haven't managed to get multisprites to explode.
-Everytime I try to explode a multisprite my program crashes. I'm also currently unable to get
-bullets to change direction with the player sprite. I also haven't got object pooling to work which
-is making collision detectioin for bullets harder to do.
+Rathian sprite made by Zedotagger
+Background from 8 bit day wallpaper
