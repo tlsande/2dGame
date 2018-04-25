@@ -1,0 +1,146 @@
+<?xml version = "1.0"?>
+<GameData>
+<!-- screenTitle is also used to identify you and your animation.
+     So make sure to include your name as part of the screenTitle -->
+<title>The Tracker Framework</title>
+<maxStringSize>50</maxStringSize>
+
+<frameCapOn>true</frameCapOn>
+<period>17</period>
+
+<maxFrames>300</maxFrames>
+<username>tlsande</username>
+
+<view>
+  <width>1280</width>
+  <height>720</height>
+</view>
+
+<world>
+  <width>4000</width>
+  <height>1080</height>
+</world>
+
+<sky>
+  <file>assets/sky.png</file>
+  <factor>2</factor>
+  <transparency>false</transparency>
+</sky>
+
+<ground>
+  <file>assets/ground.png</file>
+  <factor>1</factor>
+  <transparency>false</transparency>
+</ground>
+
+<font name="font">
+  <file>fonts/arial.ttf</file>
+  <size>24</size>
+  <red>255</red>
+  <green>0</green>
+  <blue>0</blue>
+  <alpha>0</alpha>
+</font>
+
+<Rathian>
+  <file>assets/rathian.png</file>
+  <bullet>raybeam</bullet>
+  <startLoc x="3500" y="140"/>
+  <frames>10</frames>
+  <imageWidth>256</imageWidth>
+  <imageHeight>256</imageHeight>
+  <frameInterval>100</frameInterval>
+  <speedX>350</speedX>
+  <speedY>350</speedY>
+  <transparency>false</transparency>
+  <chunk>
+    <size>16</size>
+    <distance>200</distance>
+  </chunk>
+</Rathian>
+
+<RathianLeft>
+  <file>assets/rathianLeft.png</file>
+  <bullet>raybeam</bullet>
+  <startLoc x="3500" y="140"/>
+  <frames>10</frames>
+  <imageWidth>256</imageWidth>
+  <imageHeight>256</imageHeight>
+  <frameInterval>100</frameInterval>
+  <speedX>350</speedX>
+  <speedY>350</speedY>
+  <transparency>false</transparency>
+  <chunk>
+    <size>16</size>
+    <distance>200</distance>
+  </chunk>
+</RathianLeft>
+
+<raybeam>
+  <file>assets/raybeam.png</file>
+  <speedX>200</speedX>
+  <interval>300</interval>
+  <speedY>0</speedY>
+  <startLoc x="100" y="100"/>
+  <transparency>true</transparency>
+  <distance>320</distance>
+</raybeam>
+
+<Dinovaldo>
+  <file>assets/dinovaldo.png</file>
+  <startLoc x="3400" y="140"/>
+  <frames>12</frames>
+  <imageWidth>344</imageWidth>
+  <imageHeight>147</imageHeight>
+  <frameInterval>100</frameInterval>
+  <speedX>-200</speedX>
+  <speedY>200</speedY>
+  <transparency>false</transparency>
+</Dinovaldo>
+
+<Thonking>
+  <file>assets/thonking.png</file>
+  <startLoc x="3000" y="140"/>
+  <frames>8</frames>
+  <imageWidth>80</imageWidth>
+  <imageHeight>80</imageHeight>
+  <frameInterval>100</frameInterval>
+  <speedX>250</speedX>
+  <speedY>250</speedY>
+  <number>1</number>
+  <transparency>false</transparency>
+  <chunk>
+    <size>16</size>
+    <distance>250</distance>
+  </chunk>
+</Thonking>
+
+<Sword>
+  <file>assets/sword.png</file>
+  <startLoc x="2500" y="400"/>
+  <speedX>200</speedX>
+  <speedY>200</speedY>
+  <number>1</number>
+  <safeDistance>180</safeDistance>
+  <transparency>false</transparency>
+  <chunk>
+    <size>16</size>
+    <distance>200</distance>
+  </chunk>
+</Sword>
+
+<Hud>
+  <x>1127</x>
+  <y>3</y>
+  <h>160</h>
+  <w>150</w>
+  <nMes>6</nMes>
+  <mes0>Controls:</mes0>
+  <mes1>w - up</mes1>
+  <mes2>a - left</mes2>
+  <mes3>s - down</mes3>
+  <mes4>d - right</mes4>
+  <mes5>space - shoot</mes5>
+</Hud>
+
+</GameData>
