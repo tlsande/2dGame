@@ -48,20 +48,9 @@ Engine::Engine() :
   currentSprite(0),
   hud(),
   makeVideo( false ),
-  sound()
+  sound(),
+  timeLeft(20000)
 {
-
-
-
-  // for(int i = 0; i < Gamedata::getInstance().getXmlInt("Sword/number"); i++) {
-  //   sprites.push_back(new Sprite("Sword"));
-  // }
-  // //sprites.push_back(new MultiSprite("Rathian"));
-  //
-  // for(int j = 0; j < Gamedata::getInstance().getXmlInt("Thonking/number"); j++) {
-  //    sprites.push_back(new MultiSprite("Thonking"));
-  // }
-
   sound.startMusic();
 
 
@@ -115,8 +104,11 @@ void Engine::draw() const {
   int fps = clock.getFps();
   std::stringstream frames;
   frames << "FPS " << fps;
-
   io.writeText(frames.str(), 3, 3, green);
+
+  std::stringstream timeCounter;
+  timeCounter << "Time left " << timeLeft/1000;
+  io.writeText(timeCounter.str(), 3, 690, green);
 
   hud.draw();
   viewport.draw();
@@ -146,6 +138,8 @@ void Engine::draw() const {
 // }
 
 void Engine::update(Uint32 ticks) {
+
+  timeLeft -= ticks;
 
   // checkForCollisions();
 
@@ -181,7 +175,11 @@ void Engine::play() {
   Uint32 ticks = clock.getElapsedTicks();
   FrameGenerator frameGen;
 
+
   while ( !done ) {
+  if(timeLeft < 0) {
+      done = true;
+    }
     // The next loop polls for events, guarding against key bounce:
     while ( SDL_PollEvent(&event) ) {
       keystate = SDL_GetKeyboardState(NULL);

@@ -9,6 +9,7 @@ int main(int, char*[]) {
       Engine engine;
       engine.play();
       delete RenderContext::getInstance();
+      std::cout << "Game ended" << std::endl;
    }
    catch (const string& msg) { std::cout << msg << std::endl; }
    catch (...) {

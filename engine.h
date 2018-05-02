@@ -52,6 +52,8 @@ private:
 
   SDLSound sound;
 
+  int timeLeft;
+
   void draw() const;
   void update(Uint32);
 
