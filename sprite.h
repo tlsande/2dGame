@@ -3,7 +3,8 @@
 #include <string>
 #include "drawable.h"
 
-class ExplodingSprite;
+class ExplodingSprite;        
+
 
 class Sprite : public Drawable {
 public:
@@ -25,10 +26,13 @@ public:
   int getScaledHeight() const { return getScale()*image->getHeight(); }
 
   virtual void explode();
+  bool isExploding() const {return explosion != nullptr;}
+  bool isExplosionDone() const {return explosionDone;}
 
 private:
   const Image * image;
   ExplodingSprite* explosion;
+  bool explosionDone;
 
 protected:
   int worldWidth;

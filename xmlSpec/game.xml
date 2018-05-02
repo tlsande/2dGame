@@ -120,7 +120,7 @@
   <startLoc x="2500" y="400"/>
   <speedX>200</speedX>
   <speedY>200</speedY>
-  <number>1</number>
+  <number>20</number>
   <safeDistance>180</safeDistance>
   <transparency>false</transparency>
   <chunk>

@@ -75,6 +75,8 @@ private:
   float timeSinceLastFrame;
   int currentBullet;
 
+  Vector2f oldVelocity;
+
   //Player& operator=(const Player&);
 };
 #endif

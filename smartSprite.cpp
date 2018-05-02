@@ -36,6 +36,8 @@ SmartSprite::SmartSprite(const SmartSprite& s) :
 
 void SmartSprite::update(Uint32 ticks) {
   Sprite::update(ticks);
+  if(isExploding()) return;
+  if(isExplosionDone()) return;
   float x = getX() + getImage()->getWidth() / 2;
   float y = getY() + getImage()->getHeight() / 2;
   float ex = playerPos[0] + playerWidth / 2;

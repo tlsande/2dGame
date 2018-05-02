@@ -21,7 +21,6 @@ public:
   Engine ();
   ~Engine ();
   void play();
-  void switchSprite();
 
 private:
   const RenderContext* rc;
@@ -41,7 +40,6 @@ private:
   std::vector<Drawable*> sprites;
   std::vector<SmartSprite*> smartSprites;
   std::vector<CollisionStrategy*> strategies;
-  int nSprites;
   int currentStrategy;
   bool collision;
 

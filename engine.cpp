@@ -18,9 +18,6 @@ const SDL_Color green = {0, 255, 0, 255};
 const SDL_Color grey = {200, 200, 200, 255};
 
 Engine::~Engine() {
-  // delete star;
-  // delete spinningStar;
-  //sprites.clear();
   for(std::vector<Drawable*>::iterator it = sprites.begin(); it != sprites.end(); ++it){
      delete (*it);
   }
@@ -42,13 +39,10 @@ Engine::Engine() :
   sky("sky", Gamedata::getInstance().getXmlInt("sky/factor") ),
   ground("ground", Gamedata::getInstance().getXmlInt("ground/factor") ),
   viewport( Viewport::getInstance() ),
-  // star(new Sprite("YellowStar")),
-  // spinningStar(new MultiSprite("SpinningStar")),
   player(new Player("Rathian")),
   sprites(std::vector<Drawable*>(0)),
   smartSprites(),
   strategies(),
-  nSprites(0),
   currentStrategy(0),
   collision(false),
   currentSprite(0),
@@ -56,30 +50,19 @@ Engine::Engine() :
   makeVideo( false )
 {
 
-  //Viewport::getInstance().setObjectToTrack(star);
 
-  // For player
-  nSprites++;
 
-  // sprites.push_back(new TwoWayMultiSprite("Rathian"));
-  // nSprites++;
-  //
-  for(int i = 0; i < Gamedata::getInstance().getXmlInt("Sword/number"); i++) {
-    sprites.push_back(new Sprite("Sword"));
-    nSprites++;
-  }
+  // for(int i = 0; i < Gamedata::getInstance().getXmlInt("Sword/number"); i++) {
+  //   sprites.push_back(new Sprite("Sword"));
+  // }
   // //sprites.push_back(new MultiSprite("Rathian"));
   //
-  for(int j = 0; j < Gamedata::getInstance().getXmlInt("Thonking/number"); j++) {
-     sprites.push_back(new MultiSprite("Thonking"));
-     nSprites++;
-  }
+  // for(int j = 0; j < Gamedata::getInstance().getXmlInt("Thonking/number"); j++) {
+  //    sprites.push_back(new MultiSprite("Thonking"));
+  // }
 
-  // sprites.push_back(new MultiSprite("Dinovaldo"));
-  // nSprites++;
 
   int n = Gamedata::getInstance().getXmlInt("Sword/number");
-  std::cout << n << std::endl;
 
 
 
@@ -99,8 +82,6 @@ Engine::Engine() :
 
   Viewport::getInstance().setObjectToTrack(player->getPlayer());
 
-  //switchSprite();
-  std::cout << "Loading complete" << std::endl;
 }
 
 void Engine::draw() const {
@@ -109,14 +90,10 @@ void Engine::draw() const {
 
 
 
-  //IoMod::getInstance().writeText("Press m to change strategy", 500, 60, green);
   for(const Drawable* sprite : smartSprites) {
     sprite->draw();
   }
 
-  // std::stringstream strm;
-  // strm << smartSprites.size() << " Smart Sprites Remaining";
-  // IoMod::getInstance().writeText(strm.str(), 30, 60, green);
   strategies[currentStrategy]->draw();
   if(collision) {
     IoMod::getInstance().writeText("There was a collision", 500, 90, green);
@@ -127,20 +104,16 @@ void Engine::draw() const {
      s->draw();
  }
 
+ int remaining = smartSprites.size();
+ std::stringstream sRemain;
+ sRemain << "Targets remaining " << remaining;
+ io.writeText(sRemain.str(), 100, 3, green);
+
   int fps = clock.getFps();
   std::stringstream frames;
   frames << "FPS " << fps;
-  //io.writeText(frames.str(), 30, 50);
 
   io.writeText(frames.str(), 3, 3, green);
-
-  // std::string myName = "Lee Sanders";
-  // io.writeText(myName, 3, 690, grey);
-
-  // Some test stuff
-  // std::stringstream debug;
-  // debug << "Test " << Gamedata::getInstance().getRandInRange(100, 50);
-  // io.writeText(debug.str(), 30, 80, test);
 
   hud.draw();
   viewport.draw();
@@ -162,45 +135,28 @@ void Engine::checkForCollisions() {
 }
 
 void Engine::update(Uint32 ticks) {
-  // star->update(ticks);
-  // spinningStar->update(ticks);
-
-  //hud.update();
 
   //checkForCollisions();
 
 
   player->update(ticks);
 
-  for(Drawable* sprite : smartSprites) {
-    sprite->update(ticks);
+  auto it = smartSprites.begin();
+  while(it != smartSprites.end()) {
+    (*it)->update(ticks);
+    if((*it)->isExplosionDone()) {
+      it = smartSprites.erase(it);
+    }
+    else ++it;
   }
 
-  for(auto* s : sprites) {
-     s->update(ticks);
- }
+  // for(auto* s : sprites) {
+  //    s->update(ticks);
+  // }
+
   sky.update();
   ground.update();
   viewport.update(); // always update viewport last
-}
-
-void Engine::switchSprite(){
-  ++currentSprite;
-  // currentSprite = currentSprite % 2;
-  // if ( currentSprite ) {
-  //   Viewport::getInstance().setObjectToTrack(sprites.at(currentSprite));
-  // }
-  // else {
-  //   Viewport::getInstance().setObjectToTrack(sprites.at(currentSprite));
-  // }
-  currentSprite = currentSprite % nSprites;
-
-  if(currentSprite == 0) {
-    Viewport::getInstance().setObjectToTrack(player->getPlayer());
-  }
-  else{
-    Viewport::getInstance().setObjectToTrack(sprites.at(currentSprite - 1));
-  }
 }
 
 void Engine::play() {
@@ -224,9 +180,6 @@ void Engine::play() {
           if ( clock.isPaused() ) clock.unpause();
           else clock.pause();
         }
-        if ( keystate[SDL_SCANCODE_T] ) {
-          switchSprite();
-        }
         if(keystate[SDL_SCANCODE_SPACE]) {
           player->shoot();
         }
@@ -235,9 +188,9 @@ void Engine::play() {
           std::cout << "Should have exploded" << std::endl;
           std::cout << "current sprite: " << currentSprite << std::endl;
         }
-        if(keystate[SDL_SCANCODE_P]) {
-          sprites[0]->explode();
-        }
+        // if(keystate[SDL_SCANCODE_G]) {
+        //   sprites[0]->explode();
+        // }
         if(keystate[SDL_SCANCODE_M]) {
           currentStrategy = (1 + currentStrategy) % strategies.size();
         }

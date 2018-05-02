@@ -22,6 +22,7 @@ Sprite::Sprite(const string& n, const Vector2f& pos, const Vector2f& vel,
   Drawable(n, pos, vel),
   image( img ),
   explosion(nullptr),
+  explosionDone(false),
   worldWidth(Gamedata::getInstance().getXmlInt("world/width")),
   worldHeight(Gamedata::getInstance().getXmlInt("world/height"))
 { }
@@ -36,6 +37,7 @@ Sprite::Sprite(const std::string& name) :
            ),
   image( RenderContext::getInstance()->getImage(name) ),
   explosion(nullptr),
+  explosionDone(false),
   worldWidth(Gamedata::getInstance().getXmlInt("world/width")),
   worldHeight(Gamedata::getInstance().getXmlInt("world/height"))
 { }
@@ -44,6 +46,7 @@ Sprite::Sprite(const Sprite& s) :
   Drawable(s),
   image(s.image),
   explosion(s.explosion),
+  explosionDone(s.explosionDone),
   worldWidth(Gamedata::getInstance().getXmlInt("world/width")),
   worldHeight(Gamedata::getInstance().getXmlInt("world/height"))
 { }
@@ -52,6 +55,7 @@ Sprite& Sprite::operator=(const Sprite& rhs) {
   Drawable::operator=( rhs );
   image = rhs.image;
   explosion = rhs.explosion;
+  explosionDone = rhs.explosionDone;
   worldWidth = rhs.worldWidth;
   worldHeight = rhs.worldHeight;
   return *this;
@@ -75,8 +79,9 @@ void Sprite::update(Uint32 ticks) {
   if(explosion) {
     explosion->update(ticks);
     if(explosion->chunkCount() == 0) {
+      explosionDone = true;
       delete explosion;
-      explosion = NULL;
+      explosion = nullptr;
     }
     return;
   }

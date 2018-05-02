@@ -14,7 +14,8 @@ Player::Player(const std::string& name) :
   minSpeed(Gamedata::getInstance().getXmlInt(bulletName+"/speedX")),
   bulletInterval(Gamedata::getInstance().getXmlInt(bulletName+"/interval")),
   timeSinceLastFrame(0),
-  currentBullet(0)
+  currentBullet(0),
+  oldVelocity()
   {}
 
 Player::Player(const Player& p) :
@@ -28,7 +29,8 @@ Player::Player(const Player& p) :
   minSpeed(p.minSpeed),
   bulletInterval(p.bulletInterval),
   timeSinceLastFrame(p.timeSinceLastFrame),
-  currentBullet(p.currentBullet)
+  currentBullet(p.currentBullet),
+  oldVelocity(p.oldVelocity)
 {}
 
 // Player::Player(const Player& p) :
@@ -40,6 +42,7 @@ Player::Player(const Player& p) :
 //   {}
 
 void Player::stop() {
+  oldVelocity = player.getVelocity();
   player.setVelocity(Vector2f(0, 0));
 }
 
@@ -74,7 +77,18 @@ void Player::shoot() {
 
   Bullet bullet(bulletName);
   bullet.setPosition(player.getPosition() + Vector2f(deltaX, deltaY));
-  bullet.setVelocity(player.getVelocity() + Vector2f(minSpeed, 0));
+
+  Vector2f temp = oldVelocity;
+  std::cout << temp[0] << ", " << temp[1] << std::endl;
+
+  bullet.setVelocity(oldVelocity + Vector2f(minSpeed, 0));
+  if(oldVelocity[0] < 0) {
+    bullet.setVelocity(oldVelocity + Vector2f(-minSpeed, 0));
+  }
+  else {
+    bullet.setVelocity(oldVelocity + Vector2f(minSpeed, 0));
+  }
+
   bullets.push_back(bullet);
   currentBullet++;
   timeSinceLastFrame = 0;
@@ -90,6 +104,9 @@ void Player::draw() const {
 void Player::update(Uint32 ticks) {
   timeSinceLastFrame += ticks;
   player.update(ticks);
+
+  // Vector2f temp = player.getVelocity();
+  // std::cout << temp[0] << ", " << temp[1] << std::endl;
 
   for(Bullet& bullet: bullets) {
     bullet.update(ticks);
