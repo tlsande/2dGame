@@ -49,12 +49,12 @@ Engine::Engine() :
   hud(),
   makeVideo( false ),
   sound(),
-  timeLeft(20000)
+  timeLeft(10000)
 {
   sound.startMusic();
 
 
-  int n = Gamedata::getInstance().getXmlInt("Sword/number");
+  int n = Gamedata::getInstance().getXmlInt("Target/number");
 
 
 
@@ -64,7 +64,7 @@ Engine::Engine() :
   int w = player->getPlayer()->getScaledWidth();
   int h = player->getScaledHeight();
   for(int i = 0; i < n; ++i) {
-    smartSprites.push_back(new SmartSprite("Sword", pos, w, h));
+    smartSprites.push_back(new SmartSprite("Target", pos, w, h));
     player->attach(smartSprites[i]);
   }
 
@@ -77,6 +77,11 @@ Engine::Engine() :
 }
 
 void Engine::draw() const {
+  if(timeLeft < 0) {
+    io.writeText("Press R to Restart the game", 560, 330, green);
+    clock.pause();
+  }
+
   sky.draw();
   ground.draw();
 
@@ -115,34 +120,9 @@ void Engine::draw() const {
   SDL_RenderPresent(renderer);
 }
 
-// update for shooting ******** remember to re-enable function in update
-// void Engine::checkForCollisions() {
-//   // auto it = smartSprites.begin();
-//   // while(it != smartSprites.end()) {
-//   //   if(strategies[currentStrategy]->execute(*player->getPlayer(), **it)) {
-//   //     SmartSprite* doa = *it;
-//   //     player->detach(doa);
-//   //     delete doa;
-//   //     it = smartSprites.erase(it);
-//   //   }
-//   //   else ++it;
-//   // }
-//
-//   auto it = smartSprites.begin();
-//   while(it != smartSprites.end()) {
-//     if(player->checkCollision(**it)) {
-//       (*it)->explode();
-//     }
-//     else ++it;
-//   }
-// }
-
 void Engine::update(Uint32 ticks) {
 
   timeLeft -= ticks;
-
-  // checkForCollisions();
-
 
   player->update(ticks);
 
@@ -168,7 +148,7 @@ void Engine::update(Uint32 ticks) {
   viewport.update(); // always update viewport last
 }
 
-void Engine::play() {
+bool Engine::play() {
   SDL_Event event;
   const Uint8* keystate;
   bool done = false;
@@ -177,9 +157,9 @@ void Engine::play() {
 
 
   while ( !done ) {
-  if(timeLeft < 0) {
-      done = true;
-    }
+  // if(timeLeft < 0) {
+  //     done = true;
+  //   }
     // The next loop polls for events, guarding against key bounce:
     while ( SDL_PollEvent(&event) ) {
       keystate = SDL_GetKeyboardState(NULL);
@@ -196,11 +176,15 @@ void Engine::play() {
         if(keystate[SDL_SCANCODE_SPACE]) {
           player->shoot();
         }
-        if(keystate[SDL_SCANCODE_E]) {
-          smartSprites[0]->explode();
-          std::cout << "Should have exploded" << std::endl;
-          std::cout << "current sprite: " << currentSprite << std::endl;
+        if(keystate[SDL_SCANCODE_R]) {
+          clock.unpause();
+          return true;
         }
+        // if(keystate[SDL_SCANCODE_E]) {
+        //   smartSprites[0]->explode();
+        //   std::cout << "Should have exploded" << std::endl;
+        //   std::cout << "current sprite: " << currentSprite << std::endl;
+        // }
         // if(keystate[SDL_SCANCODE_G]) {
         //   sprites[0]->explode();
         // }
@@ -245,5 +229,6 @@ void Engine::play() {
       }
     }
   }
+  return false;
 
 }

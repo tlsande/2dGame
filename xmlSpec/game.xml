@@ -129,6 +129,21 @@
   </chunk>
 </Sword>
 
+
+<Target>
+  <file>assets/target.png</file>
+  <startLoc x="2500" y="400"/>
+  <speedX>200</speedX>
+  <speedY>200</speedY>
+  <number>20</number>
+  <safeDistance>180</safeDistance>
+  <transparency>false</transparency>
+  <chunk>
+    <size>64</size>
+    <distance>200</distance>
+  </chunk>
+</Target>
+
 <Hud>
   <x>1127</x>
   <y>3</y>

@@ -21,7 +21,7 @@ public:
   Engine& operator=(const Engine&) = delete;
   Engine ();
   ~Engine ();
-  void play();
+  bool play();
 
 private:
   const RenderContext* rc;
