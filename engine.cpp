@@ -49,7 +49,8 @@ Engine::Engine() :
   hud(),
   makeVideo( false ),
   sound(),
-  timeLeft(10000)
+  timeLeft(10000),
+  score(0)
 {
   sound.startMusic();
 
@@ -115,6 +116,10 @@ void Engine::draw() const {
   timeCounter << "Time left " << timeLeft/1000;
   io.writeText(timeCounter.str(), 3, 690, green);
 
+  std::stringstream curScore;
+  curScore << "Score " << score;
+  io.writeText(curScore.str(), 1150, 690, green);
+
   hud.draw();
   viewport.draw();
   SDL_RenderPresent(renderer);
@@ -126,12 +131,12 @@ void Engine::update(Uint32 ticks) {
 
   player->update(ticks);
 
-
   auto it = smartSprites.begin();
   while(it != smartSprites.end()) {
     (*it)->update(ticks);
     if(player->checkCollision(**it)) {
       (*it)->explode();
+      score += 20;
     }
     if((*it)->isExplosionDone()) {
       it = smartSprites.erase(it);

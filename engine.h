@@ -53,6 +53,7 @@ private:
   SDLSound sound;
 
   int timeLeft;
+  int score;
 
   void draw() const;
   void update(Uint32);

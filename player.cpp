@@ -91,11 +91,15 @@ void Player::shoot() {
 }
 
 bool Player::checkCollision(const Drawable& obj) {
-  for(const Bullet& bullet : bullets) {
-    if(strategy->execute(obj, bullet)) {
+  auto it = bullets.begin();
+  // for(const Bullet& bullet : bullets) {
+  while(it != bullets.end()) {
+    if(strategy->execute(obj, *it)) {
       // std::cout << "Collision" << std::endl;
+      it = bullets.erase(it);
       return true;
     }
+    else ++it;
   }
   return false;
 }
