@@ -15,6 +15,13 @@ Vector2f Sprite::makeVelocity(int vx, int vy) const {
   return Vector2f(newvx, newvy);
 }
 
+Vector2f Sprite::randomPosition() {
+  int newx = rand() % (Gamedata::getInstance().getXmlInt("world/width") - 50) + 50;
+  int newy = rand() % (Gamedata::getInstance().getXmlInt("world/height") - 50) + 50;
+
+  return Vector2f((float)newx, (float)newy);
+}
+
 Sprite::~Sprite() {if (explosion) delete explosion;}
 
 Sprite::Sprite(const string& n, const Vector2f& pos, const Vector2f& vel,
@@ -29,8 +36,9 @@ Sprite::Sprite(const string& n, const Vector2f& pos, const Vector2f& vel,
 
 Sprite::Sprite(const std::string& name) :
   Drawable(name,
-           Vector2f(Gamedata::getInstance().getXmlInt(name+"/startLoc/x"),
-                    Gamedata::getInstance().getXmlInt(name+"/startLoc/y")),
+           // Vector2f(Gamedata::getInstance().getXmlInt(name+"/startLoc/x"),
+           //          Gamedata::getInstance().getXmlInt(name+"/startLoc/y")),
+           randomPosition(),
            makeVelocity(
                     Gamedata::getInstance().getXmlInt(name+"/speedX"),
                     Gamedata::getInstance().getXmlInt(name+"/speedY"))

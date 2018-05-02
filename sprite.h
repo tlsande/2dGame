@@ -3,7 +3,7 @@
 #include <string>
 #include "drawable.h"
 
-class ExplodingSprite;        
+class ExplodingSprite;
 
 
 class Sprite : public Drawable {
@@ -40,5 +40,6 @@ protected:
 
   int getDistance(const Sprite*) const;
   Vector2f makeVelocity(int, int) const;
+  Vector2f randomPosition();
 };
 #endif
