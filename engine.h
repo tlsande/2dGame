@@ -8,6 +8,7 @@
 //#include "player.h"
 #include "smartSprite.h"
 #include "hud.h"
+#include "sound.h"
 
 class Player;
 class CollisionStrategy;
@@ -48,6 +49,8 @@ private:
   Hud hud;
 
   bool makeVideo;
+
+  SDLSound sound;
 
   void draw() const;
   void update(Uint32);

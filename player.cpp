@@ -15,8 +15,11 @@ Player::Player(const std::string& name) :
   bulletInterval(Gamedata::getInstance().getXmlInt(bulletName+"/interval")),
   timeSinceLastFrame(0),
   currentBullet(0),
-  oldVelocity()
-  {}
+  oldVelocity(),
+  strategy()
+  {
+    strategy = new PerPixelCollisionStrategy();
+  }
 
 Player::Player(const Player& p) :
   player(p.player),
@@ -30,16 +33,9 @@ Player::Player(const Player& p) :
   bulletInterval(p.bulletInterval),
   timeSinceLastFrame(p.timeSinceLastFrame),
   currentBullet(p.currentBullet),
-  oldVelocity(p.oldVelocity)
+  oldVelocity(p.oldVelocity),
+  strategy(p.strategy)
 {}
-
-// Player::Player(const Player& p) :
-//   player(),
-//   initialVelocity(player.getVelocity()),
-//   worldWidth(Gamedata::getInstace().getXmlInt("world/width")),
-//   worldHeight(Gamedata::getInstace().getXmlInt("world/height")),
-//   observers(p.observers)
-//   {}
 
 void Player::stop() {
   oldVelocity = player.getVelocity();
@@ -92,6 +88,16 @@ void Player::shoot() {
   bullets.push_back(bullet);
   currentBullet++;
   timeSinceLastFrame = 0;
+}
+
+bool Player::checkCollision(const Drawable& obj) {
+  for(const Bullet& bullet : bullets) {
+    if(strategy->execute(obj, bullet)) {
+      // std::cout << "Collision" << std::endl;
+      return true;
+    }
+  }
+  return false;
 }
 
 void Player::draw() const {

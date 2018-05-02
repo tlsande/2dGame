@@ -9,6 +9,7 @@
 
 #include "twoWayMultiSprite.h"
 #include "bullet.h"
+#include "collisionStrategy.h"
 
 class SmartSprite;
 
@@ -47,6 +48,8 @@ public:
   //   return bullets[currentBullet]
   // }
 
+  bool checkCollision(const Drawable&);
+
   void explode() {player.explode();}
 
   void right();
@@ -76,6 +79,8 @@ private:
   int currentBullet;
 
   Vector2f oldVelocity;
+
+  CollisionStrategy* strategy;
 
   //Player& operator=(const Player&);
 };

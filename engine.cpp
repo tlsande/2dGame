@@ -47,7 +47,8 @@ Engine::Engine() :
   collision(false),
   currentSprite(0),
   hud(),
-  makeVideo( false )
+  makeVideo( false ),
+  sound()
 {
 
 
@@ -60,6 +61,8 @@ Engine::Engine() :
   // for(int j = 0; j < Gamedata::getInstance().getXmlInt("Thonking/number"); j++) {
   //    sprites.push_back(new MultiSprite("Thonking"));
   // }
+
+  sound.startMusic();
 
 
   int n = Gamedata::getInstance().getXmlInt("Sword/number");
@@ -121,29 +124,41 @@ void Engine::draw() const {
 }
 
 // update for shooting ******** remember to re-enable function in update
-void Engine::checkForCollisions() {
-  auto it = smartSprites.begin();
-  while(it != smartSprites.end()) {
-    if(strategies[currentStrategy]->execute(*player->getPlayer(), **it)) {
-      SmartSprite* doa = *it;
-      player->detach(doa);
-      delete doa;
-      it = smartSprites.erase(it);
-    }
-    else ++it;
-  }
-}
+// void Engine::checkForCollisions() {
+//   // auto it = smartSprites.begin();
+//   // while(it != smartSprites.end()) {
+//   //   if(strategies[currentStrategy]->execute(*player->getPlayer(), **it)) {
+//   //     SmartSprite* doa = *it;
+//   //     player->detach(doa);
+//   //     delete doa;
+//   //     it = smartSprites.erase(it);
+//   //   }
+//   //   else ++it;
+//   // }
+//
+//   auto it = smartSprites.begin();
+//   while(it != smartSprites.end()) {
+//     if(player->checkCollision(**it)) {
+//       (*it)->explode();
+//     }
+//     else ++it;
+//   }
+// }
 
 void Engine::update(Uint32 ticks) {
 
-  //checkForCollisions();
+  // checkForCollisions();
 
 
   player->update(ticks);
 
+
   auto it = smartSprites.begin();
   while(it != smartSprites.end()) {
     (*it)->update(ticks);
+    if(player->checkCollision(**it)) {
+      (*it)->explode();
+    }
     if((*it)->isExplosionDone()) {
       it = smartSprites.erase(it);
     }
