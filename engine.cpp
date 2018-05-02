@@ -175,6 +175,7 @@ bool Engine::play() {
         }
         if(keystate[SDL_SCANCODE_SPACE]) {
           player->shoot();
+          sound[0];
         }
         if(keystate[SDL_SCANCODE_R]) {
           clock.unpause();

@@ -50,6 +50,7 @@ SDLSound::SDLSound() :
 
     //Add sounds
     //sounds.push_back(Mix_LoadWAV("sound/sound.wav"));
+    sounds.push_back(Mix_LoadWAV("sound/Thump.wav"));
 
     for(unsigned int i = 0; i < sounds.size(); i++) {
       channels.push_back(i);
