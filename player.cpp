@@ -118,7 +118,16 @@ void Player::update(Uint32 ticks) {
   // Vector2f temp = player.getVelocity();
   // std::cout << temp[0] << ", " << temp[1] << std::endl;
 
-  for(Bullet& bullet: bullets) {
+  auto it = bullets.begin();
+  // for(Bullet& bullet: bullets) {
+  while(it != bullets.end()) {
+    if(it->goneTooFar()) {
+      it = bullets.erase(it);
+    }
+    else ++it;
+  }
+
+  for(Bullet& bullet : bullets) {
     bullet.update(ticks);
   }
 

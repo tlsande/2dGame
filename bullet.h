@@ -17,6 +17,10 @@ public:
     distance = 0;
   }
 
+
+  // float getDistance() {return distance;}
+  // float getMaxDistance() {return maxDistance;}
+
 private:
   float distance;
   float maxDistance;

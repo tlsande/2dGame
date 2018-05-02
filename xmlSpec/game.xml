@@ -83,7 +83,7 @@
   <speedY>0</speedY>
   <startLoc x="100" y="100"/>
   <transparency>true</transparency>
-  <distance>320</distance>
+  <distance>1000</distance>
 </raybeam>
 
 <Dinovaldo>
