@@ -4,15 +4,13 @@
 #include <string>
 #include <random>
 #include <iomanip>
-//#include "sprite.h"
 #include "multisprite.h"
 #include "gamedata.h"
 #include "engine.h"
 #include "frameGenerator.h"
-//#include "twoWayMultiSprite.h"
 #include "player.h"
 #include "collisionStrategy.h"
-//#include "smartSprite.h"
+#include "scoreData.h"
 
 const SDL_Color green = {0, 255, 0, 255};
 const SDL_Color grey = {200, 200, 200, 255};
@@ -28,6 +26,8 @@ Engine::~Engine() {
     delete strategy;
   }
   sprites.clear();
+
+
   std::cout << "Terminating program" << std::endl;
 }
 
@@ -50,7 +50,8 @@ Engine::Engine() :
   makeVideo( false ),
   sound(),
   timeLeft(10000),
-  score(0)
+  score(0),
+  highScore(ScoreData::getInstance().getHighScore())
 {
   sound.startMusic();
 
@@ -80,6 +81,9 @@ Engine::Engine() :
 void Engine::draw() const {
   if(timeLeft < 0) {
     io.writeText("Press R to Restart the game", 560, 330, green);
+
+    ScoreData::getInstance().setHighScore(score);
+    ScoreData::getInstance().writeTheXml();
     clock.pause();
   }
 
@@ -105,7 +109,7 @@ void Engine::draw() const {
  int remaining = smartSprites.size();
  std::stringstream sRemain;
  sRemain << "Targets remaining " << remaining;
- io.writeText(sRemain.str(), 100, 3, green);
+ io.writeText(sRemain.str(), 1050, 690, green);
 
   int fps = clock.getFps();
   std::stringstream frames;
@@ -117,8 +121,12 @@ void Engine::draw() const {
   io.writeText(timeCounter.str(), 3, 690, green);
 
   std::stringstream curScore;
-  curScore << "Score " << score;
-  io.writeText(curScore.str(), 1150, 690, green);
+  curScore << "Score: " << score;
+  io.writeText(curScore.str(), 800, 33, green);
+
+  std::stringstream hs;
+  hs << "High Score: " << highScore;
+  io.writeText(hs.str(), 800, 3, green);
 
   hud.draw();
   viewport.draw();

@@ -54,6 +54,8 @@ private:
 
   int timeLeft;
   int score;
+  int highScore;
+
 
   void draw() const;
   void update(Uint32);

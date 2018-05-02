@@ -147,15 +147,16 @@
 <Hud>
   <x>1127</x>
   <y>3</y>
-  <h>160</h>
+  <h>180</h>
   <w>150</w>
-  <nMes>6</nMes>
+  <nMes>7</nMes>
   <mes0>Controls:</mes0>
   <mes1>w - up</mes1>
   <mes2>a - left</mes2>
   <mes3>s - down</mes3>
   <mes4>d - right</mes4>
   <mes5>space - shoot</mes5>
+  <mes6>r - restart</mes6>
 </Hud>
 
 </GameData>
