@@ -49,7 +49,7 @@ Engine::Engine() :
   hud(),
   makeVideo( false ),
   sound(),
-  timeLeft(10000),
+  timeLeft(20000),
   score(0),
   highScore(ScoreData::getInstance().getHighScore())
 {
